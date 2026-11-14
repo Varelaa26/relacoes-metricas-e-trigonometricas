@@ -1,7 +1,0 @@
-D:\Victor Gabriel\Projetos\c#\Relaçoes métricas e trigonométricas\Relaçoes métricas e trigonométricas\obj\Debug\Relaçoes métricas e trigonométricas.csproj.AssemblyReference.cache
-D:\Victor Gabriel\Projetos\c#\Relaçoes métricas e trigonométricas\Relaçoes métricas e trigonométricas\obj\Debug\Relaçoes métricas e trigonométricas.csproj.CoreCompileInputs.cache
-D:\Victor Gabriel\Projetos\c#\Relaçoes métricas e trigonométricas\Relaçoes métricas e trigonométricas\bin\Debug\Relaçoes métricas e trigonométricas.exe.config
-D:\Victor Gabriel\Projetos\c#\Relaçoes métricas e trigonométricas\Relaçoes métricas e trigonométricas\bin\Debug\Relaçoes métricas e trigonométricas.exe
-D:\Victor Gabriel\Projetos\c#\Relaçoes métricas e trigonométricas\Relaçoes métricas e trigonométricas\bin\Debug\Relaçoes métricas e trigonométricas.pdb
-D:\Victor Gabriel\Projetos\c#\Relaçoes métricas e trigonométricas\Relaçoes métricas e trigonométricas\obj\Debug\Relaçoes métricas e trigonométricas.exe
-D:\Victor Gabriel\Projetos\c#\Relaçoes métricas e trigonométricas\Relaçoes métricas e trigonométricas\obj\Debug\Relaçoes métricas e trigonométricas.pdb
