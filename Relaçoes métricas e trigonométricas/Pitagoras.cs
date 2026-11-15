@@ -9,6 +9,7 @@ namespace Relaçoes_métricas_e_trigonométricas
             return Math.Sqrt(Math.Pow(cateto1, 2) + Math.Pow(cateto2, 2));
         }
 
+
         public static double CalcularCateto(double hipotenusa, double cateto)
         {
             return Math.Sqrt(Math.Pow(hipotenusa, 2) - Math.Pow(cateto, 2));
