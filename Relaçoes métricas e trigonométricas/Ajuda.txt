@@ -280,16 +280,23 @@ MENU PRINCIPAL
 
 Escolha o número correspondente ao cálculo que deseja fazer.
 Nos submenus, leia as opções e informe os dados pedidos.
-Quando disponível, escolha 0 para voltar.
+Nos menus, digite x para voltar ou 0 para ir ao menu principal.
 
 Durante qualquer cálculo ou submenu, digite ? para consultar
 a ajuda do assunto atual. A ajuda aparece sem cancelar o
-cálculo; depois, basta continuar respondendo à pergunta.
+cálculo; pressione Enter para fechar a ajuda e continue a
+responder à pergunta. As opções do menu atual serão mostradas
+novamente depois da ajuda.
 
 
 REGRAS PARA DIGITAR VALORES
 
-* Medidas devem ser maiores que zero.
+* Medidas devem ser maiores que zero. Se digitar 0 quando o
+  programa pedir uma medida, o programa avaliará esse zero como
+  valor e informará que ele não é válido para aquele cálculo.
+* Durante a digitação de medidas, x volta ao menu do assunto;
+  ? mostra a ajuda. O comando 0 para ir ao menu principal é
+  usado quando o programa está aguardando uma opção de menu.
 * Use vírgula ou ponto decimal conforme a configuração do
   computador. Exemplo: 2,5 ou 2.5.
 * Ângulos são em graus, maiores que 0 e menores que 90.
