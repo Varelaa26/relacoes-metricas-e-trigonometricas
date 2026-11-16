@@ -15,7 +15,7 @@ namespace Relaçoes_métricas_e_trigonométricas
                 Console.WriteLine("3 - Relações métricas (altura e projeções)");
                 Console.WriteLine("4 - Área e perímetro");
                 Console.WriteLine("5 - Ajuda e exemplos");
-                Console.WriteLine("6 - Encerrar");
+                Console.WriteLine("6 - Encerrar"/n);
                 Console.Write("O que você deseja fazer? Digite uma opção: ");
                 switch (Console.ReadLine())
                 {
@@ -210,16 +210,6 @@ namespace Relaçoes_métricas_e_trigonométricas
             Console.WriteLine("Ângulo informado/calculado: {0}°; outro ângulo agudo: {1}°", angulo, 90 - angulo);
         }
 
-        private static void Ajuda()
-        {
-            Console.WriteLine("\n[Ajuda] Escolha uma opção no menu principal para iniciar um cálculo guiado. Em cada etapa, o programa informa os dados necessários.");
-            Console.WriteLine("No triângulo retângulo, a hipotenusa fica oposta ao ângulo de 90°. Em relação ao ângulo agudo escolhido, os catetos são oposto e adjacente.");
-            Console.WriteLine("sen(θ)=oposto/hipotenusa; cos(θ)=adjacente/hipotenusa; tg(θ)=oposto/adjacente.");
-            Console.WriteLine("Exemplo: oposto=3 e hipotenusa=5 => sen(θ)=3/5=0,6. Se θ=30°, sen=0,5, cos≈0,866 e tg≈0,577.");
-            Console.WriteLine("Relações métricas: a é a hipotenusa; b e c são catetos; m e n são projeções correspondentes a b e c; h é a altura. b²=a·m; c²=a·n; h²=m·n; a=m+n; a·h=b·c.");
-            Console.WriteLine("Exemplo: m=4 e n=9 => a=13 e h=6. Pitágoras: a²=b²+c².");
-        }
-
         private static int LerOpcao(int minimo, int maximo)
         {
             while (true)
@@ -259,6 +249,21 @@ namespace Relaçoes_métricas_e_trigonométricas
                 if (valor < 90) return valor;
                 Console.WriteLine("Um ângulo agudo precisa ser menor que 90°.");
             }
+        }.
+
+        private static void Ajuda()
+        {
+            Console.WriteLine("\n[Ajuda e exemplos] Este programa permite calcular relações métricas e trigonométricas em triângulos retângulos.\n");
+            Console.WriteLine("Qual assunto você deseja ajuda? Escolha uma opção:\n");
+            Console.WriteLine("1 - Triângulo retângulo (calcular lado ou resolver completo)");
+            Console.WriteLine("2 - Razões trigonométricas");
+            Console.WriteLine("3 - Relações métricas (altura e projeções)");
+            Console.WriteLine("4 - Área e perímetro");
+            Console.WriteLine("6 - Voltar"/n);
+            Console.Write("O que você deseja fazer? Digite uma opção: ");
+
+            switch
         }
+
     }
 }
