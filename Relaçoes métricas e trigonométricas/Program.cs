@@ -393,10 +393,9 @@ namespace Relaçoes_métricas_e_trigonométricas
                 "4 - Área e perímetro",
                 "5 - Ajuda e exemplos",
                 "6 - Encerrar",
-                _statusAtual ?? string.Empty,
-                "O que você deseja fazer? Digite uma opção:"
+                _statusAtual ?? string.Empty
             });
-            Console.Write("> ");
+            Console.Write("O que você deseja fazer? Digite uma opção: ");
         }
 
         private static string LerOpcaoMenu(string mensagem)
@@ -430,9 +429,8 @@ namespace Relaçoes_métricas_e_trigonométricas
             linhas.Add("x - Voltar");
             linhas.Add("0 - Menu principal");
             if (!string.IsNullOrEmpty(_statusAtual)) linhas.Add(_statusAtual);
-            linhas.Add(mensagem);
             DesenharQuadro(linhas);
-            Console.Write("> ");
+            Console.Write(mensagem);
         }
 
         private static void MostrarResultado(string titulo, params string[] linhas)
@@ -446,9 +444,8 @@ namespace Relaçoes_métricas_e_trigonométricas
             var conteudo = new System.Collections.Generic.List<string>();
             conteudo.Add(titulo);
             conteudo.AddRange(linhas);
-            conteudo.Add(string.Empty);
-            conteudo.Add(instrucao);
             DesenharQuadro(conteudo);
+            Console.Write(instrucao);
             Console.ReadLine();
         }
 
