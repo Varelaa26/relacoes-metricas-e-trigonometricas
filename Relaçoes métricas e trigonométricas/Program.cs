@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.IO;
 
 namespace Relaçoes_métricas_e_trigonométricas
 {
@@ -15,7 +16,7 @@ namespace Relaçoes_métricas_e_trigonométricas
                 Console.WriteLine("3 - Relações métricas (altura e projeções)");
                 Console.WriteLine("4 - Área e perímetro");
                 Console.WriteLine("5 - Ajuda e exemplos");
-                Console.WriteLine("6 - Encerrar"/n);
+                Console.WriteLine("6 - Encerrar");
                 Console.Write("O que você deseja fazer? Digite uma opção: ");
                 switch (Console.ReadLine())
                 {
@@ -249,20 +250,58 @@ namespace Relaçoes_métricas_e_trigonométricas
                 if (valor < 90) return valor;
                 Console.WriteLine("Um ângulo agudo precisa ser menor que 90°.");
             }
-        }.
+        }
 
         private static void Ajuda()
         {
-            Console.WriteLine("\n[Ajuda e exemplos] Este programa permite calcular relações métricas e trigonométricas em triângulos retângulos.\n");
-            Console.WriteLine("Qual assunto você deseja ajuda? Escolha uma opção:\n");
-            Console.WriteLine("1 - Triângulo retângulo (calcular lado ou resolver completo)");
-            Console.WriteLine("2 - Razões trigonométricas");
-            Console.WriteLine("3 - Relações métricas (altura e projeções)");
-            Console.WriteLine("4 - Área e perímetro");
-            Console.WriteLine("6 - Voltar"/n);
-            Console.Write("O que você deseja fazer? Digite uma opção: ");
+            string caminho = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ajuda.txt");
+            if (!File.Exists(caminho))
+            {
+                Console.WriteLine("Arquivo de ajuda não encontrado: {0}", caminho);
+                return;
+            }
 
-            switch
+            while (true)
+            {
+                Console.WriteLine("\n[Ajuda e exemplos] Escolha um assunto:");
+                Console.WriteLine("1 - Triângulo retângulo e teorema de Pitágoras");
+                Console.WriteLine("2 - Razões trigonométricas");
+                Console.WriteLine("3 - Relações métricas (altura e projeções)");
+                Console.WriteLine("4 - Área e perímetro");
+                Console.WriteLine("5 - Como usar o programa e validar entradas");
+                Console.WriteLine("0 - Voltar ao menu principal");
+                Console.Write("Assunto: ");
+                string opcao = Console.ReadLine();
+                if (opcao == "0") return;
+
+                if (opcao != "1" && opcao != "2" && opcao != "3" && opcao != "4" && opcao != "5")
+                {
+                    Console.WriteLine("Opção inválida. Escolha um assunto de 1 a 5 ou 0 para voltar.");
+                    continue;
+                }
+
+                ImprimirSecaoAjuda(caminho, opcao);
+            }
+        }
+
+        private static void ImprimirSecaoAjuda(string caminho, string opcao)
+        {
+            string marcador = "[AJUDA:" + opcao + "]";
+            bool imprimir = false;
+            bool encontrou = false;
+            foreach (string linha in File.ReadLines(caminho))
+            {
+                if (linha.Trim() == marcador)
+                {
+                    imprimir = true;
+                    encontrou = true;
+                    continue;
+                }
+                if (imprimir && linha.Trim() == "[FIM]") break;
+                if (imprimir) Console.WriteLine(linha);
+            }
+
+            if (!encontrou) Console.WriteLine("Não há conteúdo cadastrado para esse assunto no arquivo Ajuda.txt.");
         }
 
     }

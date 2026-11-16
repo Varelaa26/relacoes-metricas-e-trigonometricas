@@ -1,0 +1,315 @@
+============================================================
+       GUIA DE AJUDA - TRIÂNGULOS E TRIGONOMETRIA
+============================================================
+
+Este guia está separado por assunto. Escolha um número no menu
+de ajuda para ver apenas a parte que você precisa.
+
+Leia cada exemplo com calma: primeiro identifique os dados,
+depois escolha a fórmula e, por fim, substitua os valores.
+
+
+[AJUDA:1]
+============================================================
+1. TRIÂNGULO RETÂNGULO E TEOREMA DE PITÁGORAS
+============================================================
+
+COMO IDENTIFICAR OS LADOS
+
+Um triângulo retângulo tem um ângulo de 90 graus.
+O lado oposto ao ângulo de 90 graus é a hipotenusa.
+Ela é sempre o maior lado.
+Os outros dois lados são os catetos.
+
+Neste desenho, o ângulo de referência é θ:
+
+                 /|
+                / |
+       hipotenusa  | cateto oposto
+              /    |
+             /     |
+          θ /______| 90 graus
+          cateto adjacente
+
+O desenho não está em escala. O ângulo θ pode estar em outro
+canto; nesse caso, os nomes "oposto" e "adjacente" mudam.
+Hipotenusa e catetos continuam sendo identificados pelo ângulo
+reto.
+
+
+TEOREMA DE PITÁGORAS
+
+Se a é a hipotenusa e b e c são os catetos:
+
+                 a² = b² + c²
+
+Para encontrar a hipotenusa:
+                 a = √(b² + c²)
+
+Para encontrar um cateto:
+                 b = √(a² - c²)
+
+EXEMPLO A - ENCONTRAR A HIPOTENUSA
+
+Dados: catetos de 3 e 4 unidades.
+
+                 a² = 3² + 4²
+                 a² = 9 + 16
+                 a² = 25
+                  a = 5
+
+Resposta: a hipotenusa mede 5 unidades.
+
+EXEMPLO B - ENCONTRAR UM CATETO
+
+Dados: hipotenusa 5 e outro cateto 3.
+
+                 b² = 5² - 3²
+                 b² = 25 - 9
+                 b² = 16
+                  b = 4
+
+Resposta: o cateto que faltava mede 4 unidades.
+
+COMO FAZER NO PROGRAMA
+
+1. No menu principal, escolha 1.
+2. Escolha 1 para encontrar o lado que falta ou 2 para ver
+   o triângulo completo.
+3. Informe os dois catetos, ou a hipotenusa e um cateto.
+4. Se solicitado, diga se o cateto conhecido é oposto ou
+   adjacente ao ângulo de referência.
+
+[FIM]
+
+
+[AJUDA:2]
+============================================================
+2. SENO, COSSENO E TANGENTE
+============================================================
+
+As três razões comparam os lados de um triângulo retângulo
+em relação ao ângulo θ escolhido.
+
+                 /|
+                / |
+       hipotenusa  | oposto
+              /    |
+             /     |
+          θ /______| 90 graus
+           adjacente
+
+                     oposto
+SENO:       sen(θ) = -------
+                   hipotenusa
+
+                   adjacente
+COSSENO:    cos(θ) = ---------
+                   hipotenusa
+
+                     oposto
+TANGENTE:    tg(θ) = ---------
+                    adjacente
+
+LEMBRETE FÁCIL
+
+Seno     = oposto / hipotenusa
+Cosseno  = adjacente / hipotenusa
+Tangente = oposto / adjacente
+
+
+EXEMPLO - TRIÂNGULO 3, 4 E 5
+
+Considere θ no canto junto aos lados 3 e 4:
+
+                 /|
+              5 / | 3 (oposto)
+               /  |
+            θ /___| 90 graus
+                4 (adjacente)
+
+                 sen(θ) = 3/5 = 0,6
+                 cos(θ) = 4/5 = 0,8
+                 tg(θ)  = 3/4 = 0,75
+
+Se conhecemos sen(θ) = 0,6, então θ ≈ 36,87 graus.
+
+
+EXEMPLO - USAR UM ÂNGULO E A HIPOTENUSA
+
+Dados: θ = 30 graus e hipotenusa = 10.
+
+                 oposto = 10 · sen(30°) = 5
+              adjacente = 10 · cos(30°) ≈ 8,66
+
+COMO FAZER NO PROGRAMA
+
+1. No menu principal, escolha 2.
+2. Escolha calcular uma razão pelos lados, calcular as três
+   razões por ângulo, ou encontrar o ângulo e os lados.
+3. Informe os lados ou o ângulo pedidos na tela.
+4. Os ângulos devem ser informados em graus e ser menores
+   que 90 graus.
+
+[FIM]
+
+
+[AJUDA:3]
+============================================================
+3. RELAÇÕES MÉTRICAS: ALTURA E PROJEÇÕES
+============================================================
+
+Quando traçamos a altura desde o ângulo reto até a hipotenusa,
+ela divide a hipotenusa em dois pedaços: as projeções m e n.
+
+                    /|\
+                   / | \
+                  /  |h \
+                 /   |   \
+                /    |    \
+               /_____|_____\
+              m      n
+             <---- a ---->
+
+Convenção usada aqui:
+a = hipotenusa; b e c = catetos; h = altura;
+m e n = projeções sobre a hipotenusa.
+
+Relações métricas:
+
+                 b² = a · m
+                 c² = a · n
+                 h² = m · n
+                  a = m + n
+                a · h = b · c
+
+Exemplos de fórmulas isoladas:
+
+                 b = √(a · m)
+                 c = √(a · n)
+                 h = √(m · n)
+                 m = b²/a
+                 n = c²/a
+
+
+EXEMPLO - CONHECEMOS AS DUAS PROJEÇÕES
+
+Dados: m = 4 e n = 9.
+
+                 a = m + n = 4 + 9 = 13
+                 h = √(m · n) = √(4 · 9) = 6
+
+Checagem usando a altura e a hipotenusa:
+
+                 a · h = 13 · 6 = 78
+
+COMO FAZER NO PROGRAMA
+
+1. No menu principal, escolha 3.
+2. Escolha a medida que deseja calcular.
+3. Informe os valores pedidos. A tela mostra se espera
+   hipotenusa (a), cateto (b ou c), projeção (m ou n) ou
+   altura (h).
+4. Por exemplo, para calcular h usando m e n, escolha a opção
+   1 e informe m = 4 e n = 9. O resultado será h = 6.
+
+[FIM]
+
+
+[AJUDA:4]
+============================================================
+4. ÁREA E PERÍMETRO
+============================================================
+
+ÁREA
+
+A área mede a superfície dentro do triângulo.
+Use uma base e a altura perpendicular a essa base:
+
+                 A = (base · altura) / 2
+
+          /|
+         / | altura
+        /  |
+       /___|
+        base
+
+Exemplo: base = 10 e altura = 6.
+
+                 A = (10 · 6) / 2
+                 A = 60 / 2 = 30 unidades quadradas
+
+
+PERÍMETRO
+
+O perímetro é a soma dos lados que contornam o triângulo:
+
+                 P = lado 1 + lado 2 + lado 3
+
+Exemplo: triângulo retângulo com catetos 3 e 4.
+Primeiro, Pitágoras dá hipotenusa 5. Então:
+
+                 P = 3 + 4 + 5 = 12 unidades
+
+Para três lados formarem um triângulo, a soma de quaisquer
+dois deles deve ser maior que o terceiro.
+
+COMO FAZER NO PROGRAMA
+
+1. No menu principal, escolha 4.
+2. Escolha área por base e altura, perímetro de triângulo
+   retângulo por dois catetos, ou perímetro por três lados.
+3. Digite as medidas solicitadas.
+
+[FIM]
+
+
+[AJUDA:5]
+============================================================
+5. COMO USAR O PROGRAMA E INFORMAR OS DADOS
+============================================================
+
+MENU PRINCIPAL
+
+1 - Triângulo retângulo
+2 - Razões trigonométricas
+3 - Relações métricas
+4 - Área e perímetro
+5 - Ajuda e exemplos
+6 - Encerrar o programa
+
+Escolha o número correspondente ao cálculo que deseja fazer.
+Nos submenus, leia as opções e informe os dados pedidos.
+Quando disponível, escolha 0 para voltar.
+
+
+REGRAS PARA DIGITAR VALORES
+
+* Medidas devem ser maiores que zero.
+* Use vírgula ou ponto decimal conforme a configuração do
+  computador. Exemplo: 2,5 ou 2.5.
+* Ângulos são em graus, maiores que 0 e menores que 90.
+* A hipotenusa deve ser maior que cada cateto.
+* Se aparecer uma mensagem de entrada inválida, digite um
+  valor que respeite a regra indicada.
+* O símbolo ≈ quer dizer "aproximadamente". Por exemplo:
+  √3 ≈ 1,732.
+
+
+EXEMPLO DE USO DO COMEÇO AO FIM
+
+Objetivo: encontrar a hipotenusa quando os catetos medem 5 e 12.
+
+1. Escolha 1 no menu principal.
+2. Escolha 1 para encontrar o lado que falta.
+3. Escolha 1 para informar os dois catetos.
+4. Digite 5 para o cateto oposto e 12 para o adjacente.
+5. O programa calcula:
+
+                 a = √(5² + 12²)
+                 a = √(25 + 144)
+                 a = √169 = 13
+
+Resultado: a hipotenusa mede 13 unidades.
+
+[FIM]
