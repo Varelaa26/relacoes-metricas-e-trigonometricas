@@ -9,41 +9,92 @@ namespace Relaçoes_métricas_e_trigonométricas
         {
             while (true)
             {
-                Console.WriteLine("\n--- Relações métricas e trigonométricas ---");
-                Console.WriteLine("1 - Teorema de Pitágoras");
+                Console.WriteLine("\n--- Relações métricas e trigonométricas ---\n");
+                Console.WriteLine("1 - Triângulo retângulo (calcular lado ou resolver completo)");
                 Console.WriteLine("2 - Razões trigonométricas");
                 Console.WriteLine("3 - Relações métricas (altura e projeções)");
-                Console.WriteLine("4 - Resolver triângulo retângulo");
+                Console.WriteLine("4 - Área e perímetro");
                 Console.WriteLine("5 - Ajuda e exemplos");
                 Console.WriteLine("6 - Encerrar");
+                Console.Write("O que você deseja fazer? Digite uma opção: ");
                 switch (Console.ReadLine())
                 {
-                    case "1": CalcularPitagoras(); break;
+                    case "1": CalcularTriangulo(); break;
                     case "2": CalcularRazoesTrigonométricas(); break;
                     case "3": CalcularRelacoesMetricas(); break;
-                    case "4": ResolverTriangulo(); break;
+                    case "4": CalcularAreaEPerimetro(); break;
                     case "5": Ajuda(); break;
-                    case "6": return;
-                    default: Console.WriteLine("Opção inválida. Escolha um número de 1 a 6."); break;
+                    case "6": Console.WriteLine("Programa encerrado."); return;
+                    default: Console.WriteLine("Opção inválida. Escolha uma opção de 1 a 6."); break;
                 }
             }
         }
 
-        private static void CalcularPitagoras()
+        private static void CalcularTriangulo()
         {
-            Console.WriteLine("1 - Calcular hipotenusa | 2 - Calcular cateto | 0 - Voltar");
-            switch (Console.ReadLine())
+            Console.WriteLine("\n[Triângulo retângulo] Escolha o resultado desejado:");
+            Console.WriteLine("1 - Encontrar um lado que falta");
+            Console.WriteLine("2 - Resolver o triângulo completo (lados e ângulos)");
+            Console.WriteLine("0 - Voltar ao menu principal");
+            Console.Write("Qual cálculo deseja fazer? ");
+            string pedido = Console.ReadLine();
+            if (pedido == "0") return;
+            if (pedido != "1" && pedido != "2") { Console.WriteLine("Opção inválida. Escolha 0, 1 ou 2."); return; }
+
+            try
             {
-                case "1":
-                    Console.WriteLine("Hipotenusa: {0}", Pitagoras.CalcularHipotenusa(LerNumeroPositivo("Cateto 1: "), LerNumeroPositivo("Cateto 2: ")));
-                    break;
-                case "2":
-                    double h = LerNumeroPositivo("Hipotenusa: ");
-                    double c = LerNumeroPositivoAbaixoDe("Cateto conhecido: ", h);
-                    Console.WriteLine("Cateto restante: {0}", Pitagoras.CalcularCateto(h, c));
-                    break;
-                case "0": return;
-                default: Console.WriteLine("Opção inválida."); break;
+                LerDadosTriangulo(out double oposto, out double adjacente, out double hipotenusa, out string ladoFaltante, out double valorFaltante);
+                if (pedido == "1")
+                {
+                    Console.WriteLine("\n[Resultado solicitado] Lados calculados a partir dos dados informados:");
+                    Console.WriteLine("{0}: {1}", ladoFaltante, valorFaltante);
+                }
+                else
+                {
+                    double angulo = Math.Atan(oposto / adjacente) * 180.0 / Math.PI;
+                    Console.WriteLine("\n[Resultado solicitado] Triângulo completo:");
+                    ImprimirTriangulo(oposto, adjacente, hipotenusa, angulo);
+                }
+            }
+            catch (ArgumentException ex) { Console.WriteLine("Não foi possível atender ao cálculo solicitado: {0}", ex.Message); }
+        }
+
+        private static void LerDadosTriangulo(out double oposto, out double adjacente, out double hipotenusa, out string ladoFaltante, out double valorFaltante)
+        {
+            Console.WriteLine("\n[Etapa 1 de 2] Informe quais medidas você já conhece.");
+            Console.WriteLine("1 - Conheço os dois catetos");
+            Console.WriteLine("2 - Conheço a hipotenusa e um cateto");
+            Console.Write("Qual conjunto de medidas você tem? ");
+            int tipo = LerOpcao(1, 2);
+            Console.WriteLine("\n[Etapa 2 de 2] Agora informe as medidas pedidas.");
+            if (tipo == 1)
+            {
+                oposto = LerNumeroPositivo("Cateto oposto ao ângulo de referência: ");
+                adjacente = LerNumeroPositivo("Cateto adjacente ao ângulo de referência: ");
+                hipotenusa = Pitagoras.CalcularHipotenusa(oposto, adjacente);
+                ladoFaltante = "Hipotenusa";
+                valorFaltante = hipotenusa;
+            }
+            else
+            {
+                hipotenusa = LerNumeroPositivo("Hipotenusa (lado maior, oposto ao ângulo reto): ");
+                double cateto = LerNumeroPositivoAbaixoDe("Valor do cateto conhecido: ", hipotenusa);
+                Console.WriteLine("Esse cateto é: 1 - oposto ao ângulo de referência | 2 - adjacente");
+                Console.Write("Escolha 1 ou 2: ");
+                if (LerOpcao(1, 2) == 1)
+                {
+                    oposto = cateto;
+                    adjacente = Pitagoras.CalcularCateto(hipotenusa, cateto);
+                    ladoFaltante = "Cateto adjacente";
+                    valorFaltante = adjacente;
+                }
+                else
+                {
+                    adjacente = cateto;
+                    oposto = Pitagoras.CalcularCateto(hipotenusa, cateto);
+                    ladoFaltante = "Cateto oposto";
+                    valorFaltante = oposto;
+                }
             }
         }
 
@@ -51,6 +102,7 @@ namespace Relaçoes_métricas_e_trigonométricas
         {
             Console.WriteLine("1 - Seno pelos lados | 2 - Cosseno pelos lados | 3 - Tangente pelos lados");
             Console.WriteLine("4 - Seno, cosseno e tangente por ângulo | 5 - Ângulo e demais lados | 0 - Voltar");
+            Console.Write("[Razões trigonométricas] Qual cálculo deseja fazer? ");
             try
             {
                 switch (Console.ReadLine())
@@ -78,14 +130,18 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         private static void CalcularAnguloELados()
         {
-            Console.WriteLine("Razão conhecida: 1 - seno | 2 - cosseno | 3 - tangente");
+            Console.WriteLine("[Etapa 1 de 3] Qual razão trigonométrica você conhece?");
+            Console.WriteLine("1 - seno | 2 - cosseno | 3 - tangente");
+            Console.Write("Escolha a razão: ");
             int razao = LerOpcao(1, 3);
-            double valor = LerNumeroPositivo("Valor da razão: ");
+            double valor = LerNumeroPositivo("[Etapa 2 de 3] Digite o valor dessa razão: ");
             double angulo = Triogonometria.CalcularAngulo(razao, valor);
             Console.WriteLine("Ângulo: {0}°", angulo);
+            Console.WriteLine("[Etapa 3 de 3] Qual lado você conhece para calcular os demais?");
             Console.WriteLine("Lado conhecido: 1 - hipotenusa | 2 - cateto oposto | 3 - cateto adjacente");
+            Console.Write("Escolha o lado: ");
             int lado = LerOpcao(1, 3);
-            double conhecido = LerNumeroPositivo("Valor do lado: ");
+            double conhecido = LerNumeroPositivo("Digite o valor do lado conhecido: ");
             double oposto, adjacente, hipotenusa;
             Triogonometria.CalcularLados(angulo, lado, conhecido, out oposto, out adjacente, out hipotenusa);
             ImprimirTriangulo(oposto, adjacente, hipotenusa, angulo);
@@ -93,8 +149,11 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         private static void CalcularRelacoesMetricas()
         {
+            Console.WriteLine("\n[Relações métricas] Escolha qual medida deseja encontrar:");
             Console.WriteLine("Convenção: a é a hipotenusa; b²=a·m; c²=a·n; h²=m·n; a=m+n; a·h=b·c.");
-            Console.WriteLine("1 - h por m,n | 2 - h por b,c | 3 - b por a,m | 4 - c por a,n | 5 - projeção por a e cateto | 6 - a por m,n | 0 - Voltar");
+            Console.WriteLine("1 - h por m,n | 2 - h por b,c | 3 - b por a,m | 4 - c por a,n | 5 - projeção por a e cateto | 6 - a por m,n");
+            Console.WriteLine("7 - c por a,h,b | 8 - b por a,h,c | 9 - h por b,c,a | 10 - a por b,c,h | 0 - Voltar");
+            Console.Write("Qual cálculo deseja fazer? ");
             try
             {
                 switch (Console.ReadLine())
@@ -114,6 +173,10 @@ namespace Relaçoes_métricas_e_trigonométricas
                         double cateto = LerNumeroPositivoAbaixoDe(qual == 1 ? "Cateto b: " : "Cateto c: ", a);
                         Console.WriteLine("Projeção: {0}", Metricas.CalcularProjecao(cateto, a)); break;
                     case "6": Console.WriteLine("Hipotenusa a: {0}", Metricas.CalcularHipotenusaPelasProjecoes(LerNumeroPositivo("m: "), LerNumeroPositivo("n: "))); break;
+                    case "7": Console.WriteLine("Cateto c: {0}", Metricas.CalcularPelaRelacaoAltura(LerNumeroPositivo("Hipotenusa a: "), LerNumeroPositivo("Altura h: "), LerNumeroPositivo("Cateto b: "))); break;
+                    case "8": Console.WriteLine("Cateto b: {0}", Metricas.CalcularPelaRelacaoAltura(LerNumeroPositivo("Hipotenusa a: "), LerNumeroPositivo("Altura h: "), LerNumeroPositivo("Cateto c: "))); break;
+                    case "9": Console.WriteLine("Altura h: {0}", Metricas.CalcularPelaRelacaoAltura(LerNumeroPositivo("Cateto b: "), LerNumeroPositivo("Cateto c: "), LerNumeroPositivo("Hipotenusa a: "))); break;
+                    case "10": Console.WriteLine("Hipotenusa a: {0}", Metricas.CalcularPelaRelacaoAltura(LerNumeroPositivo("Cateto b: "), LerNumeroPositivo("Cateto c: "), LerNumeroPositivo("Altura h: "))); break;
                     case "0": return;
                     default: Console.WriteLine("Opção inválida."); break;
                 }
@@ -121,32 +184,22 @@ namespace Relaçoes_métricas_e_trigonométricas
             catch (ArgumentException ex) { Console.WriteLine("Não foi possível calcular: {0}", ex.Message); }
         }
 
-        private static void ResolverTriangulo()
+        private static void CalcularAreaEPerimetro()
         {
-            Console.WriteLine("Informe dois lados. Para catetos, a hipotenusa será calculada; para hipotenusa e cateto, o outro cateto será calculado.");
+            Console.WriteLine("1 - Área por base e altura | 2 - Perímetro de triângulo retângulo | 3 - Perímetro por três lados | 0 - Voltar");
+            Console.Write("Escolha: ");
             try
             {
-                Console.WriteLine("1 - dois catetos | 2 - hipotenusa e cateto");
-                int tipo = LerOpcao(1, 2);
-                double oposto, adjacente, hipotenusa;
-                if (tipo == 1)
+                switch (Console.ReadLine())
                 {
-                    oposto = LerNumeroPositivo("Cateto oposto (b): ");
-                    adjacente = LerNumeroPositivo("Cateto adjacente (c): ");
-                    hipotenusa = Pitagoras.CalcularHipotenusa(oposto, adjacente);
+                    case "1": Console.WriteLine("Área: {0}", Metricas.CalcularArea(LerNumeroPositivo("Base: "), LerNumeroPositivo("Altura: "))); break;
+                    case "2": Console.WriteLine("Perímetro: {0}", Metricas.CalcularPerimetro(LerNumeroPositivo("Cateto 1: "), LerNumeroPositivo("Cateto 2: "))); break;
+                    case "3": Console.WriteLine("Perímetro: {0}", Metricas.CalcularPerimetroDoTriangulo(LerNumeroPositivo("Lado 1: "), LerNumeroPositivo("Lado 2: "), LerNumeroPositivo("Lado 3: "))); break;
+                    case "0": return;
+                    default: Console.WriteLine("Opção inválida."); break;
                 }
-                else
-                {
-                    hipotenusa = LerNumeroPositivo("Hipotenusa: ");
-                    double cateto = LerNumeroPositivoAbaixoDe("Cateto conhecido: ", hipotenusa);
-                    Console.WriteLine("Esse cateto é: 1 - oposto | 2 - adjacente");
-                    if (LerOpcao(1, 2) == 1) { oposto = cateto; adjacente = Pitagoras.CalcularCateto(hipotenusa, cateto); }
-                    else { adjacente = cateto; oposto = Pitagoras.CalcularCateto(hipotenusa, cateto); }
-                }
-                double angulo = Math.Atan(oposto / adjacente) * 180.0 / Math.PI;
-                ImprimirTriangulo(oposto, adjacente, hipotenusa, angulo);
             }
-            catch (ArgumentException ex) { Console.WriteLine("Não foi possível resolver o triângulo: {0}", ex.Message); }
+            catch (ArgumentException ex) { Console.WriteLine("Não foi possível calcular: {0}", ex.Message); }
         }
 
         private static void ImprimirTriangulo(double oposto, double adjacente, double hipotenusa, double angulo)
@@ -159,6 +212,7 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         private static void Ajuda()
         {
+            Console.WriteLine("\n[Ajuda] Escolha uma opção no menu principal para iniciar um cálculo guiado. Em cada etapa, o programa informa os dados necessários.");
             Console.WriteLine("No triângulo retângulo, a hipotenusa fica oposta ao ângulo de 90°. Em relação ao ângulo agudo escolhido, os catetos são oposto e adjacente.");
             Console.WriteLine("sen(θ)=oposto/hipotenusa; cos(θ)=adjacente/hipotenusa; tg(θ)=oposto/adjacente.");
             Console.WriteLine("Exemplo: oposto=3 e hipotenusa=5 => sen(θ)=3/5=0,6. Se θ=30°, sen=0,5, cos≈0,866 e tg≈0,577.");

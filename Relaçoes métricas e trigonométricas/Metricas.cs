@@ -7,28 +7,27 @@ namespace Relaçoes_métricas_e_trigonométricas
     {
         public static double CalcularArea(double baseTriangulo, double altura)
         {
-            if (baseTriangulo <= 0 || altura <= 0)
-                throw new ArgumentOutOfRangeException("baseTriangulo", "A base e a altura devem ser maiores que zero.");
-            return (baseTriangulo * altura) / 2.0;
+            ValidarPositivo(baseTriangulo, "A base");
+            ValidarPositivo(altura, "A altura");
+            return ValidarResultado(baseTriangulo * (altura / 2.0), "A área calculada excede o intervalo numérico suportado.");
         }
         public static double CalcularPerimetroDoTriangulo(double lado1, double lado2, double lado3)
         {
-            if (lado1 <= 0 || lado2 <= 0 || lado3 <= 0)
-                throw new ArgumentOutOfRangeException("lado", "Todos os lados devem ser maiores que zero.");
-            return lado1 + lado2 + lado3;
+            ValidarPositivo(lado1, "O lado 1"); ValidarPositivo(lado2, "O lado 2"); ValidarPositivo(lado3, "O lado 3");
+            if (lado1 + lado2 <= lado3 || lado1 + lado3 <= lado2 || lado2 + lado3 <= lado1)
+                throw new ArgumentException("As medidas não formam um triângulo: a soma de quaisquer dois lados deve superar o terceiro.");
+            return ValidarResultado(lado1 + lado2 + lado3, "O perímetro excede o intervalo numérico suportado.");
         }
         public static double CalcularPerimetro(double cateto1, double cateto2)
         {
-            if (cateto1 <= 0 || cateto2 <= 0)
-                throw new ArgumentOutOfRangeException("cateto", "Os catetos devem ser maiores que zero.");
-            return cateto1 + cateto2 + Math.Sqrt(cateto1 * cateto1 + cateto2 * cateto2);
+            return ValidarResultado(cateto1 + cateto2 + Pitagoras.CalcularHipotenusa(cateto1, cateto2), "O perímetro excede o intervalo numérico suportado.");
         }
         public static double CalcularAltura(double cateto1, double cateto2)
         {
             ValidarPositivo(cateto1, "O primeiro cateto");
             ValidarPositivo(cateto2, "O segundo cateto");
-            double hipotenusa = Math.Sqrt(cateto1 * cateto1 + cateto2 * cateto2);
-            return cateto1 * cateto2 / hipotenusa; // b·c = a·h
+            double hipotenusa = Pitagoras.CalcularHipotenusa(cateto1, cateto2);
+            return ValidarResultado(cateto1 * (cateto2 / hipotenusa), "A altura calculada excede o intervalo numérico suportado."); // b·c = a·h
         }
 
         public static double CalcularAlturaPelosCatetos(double cateto1, double cateto2)
@@ -41,7 +40,7 @@ namespace Relaçoes_métricas_e_trigonométricas
         {
             ValidarPositivo(m, "A projeção m");
             ValidarPositivo(n, "A projeção n");
-            return Math.Sqrt(m * n); // h² = m·n
+            return ValidarResultado(Math.Sqrt(m) * Math.Sqrt(n), "A altura calculada excede o intervalo numérico suportado."); // h² = m·n
         }
 
         public static double CalcularCateto(double hipotenusa, double projecao)
@@ -50,7 +49,7 @@ namespace Relaçoes_métricas_e_trigonométricas
             ValidarPositivo(projecao, "A projeção");
             if (projecao >= hipotenusa)
                 throw new ArgumentException("A projeção deve ser menor que a hipotenusa.");
-            return Math.Sqrt(hipotenusa * projecao); // b² = a·m (ou c² = a·n)
+            return ValidarResultado(Math.Sqrt(hipotenusa) * Math.Sqrt(projecao), "O cateto calculado excede o intervalo numérico suportado."); // b² = a·m (ou c² = a·n)
         }
 
         public static double CalcularProjecao(double cateto, double hipotenusa)
@@ -59,20 +58,36 @@ namespace Relaçoes_métricas_e_trigonométricas
             ValidarPositivo(hipotenusa, "A hipotenusa");
             if (cateto >= hipotenusa)
                 throw new ArgumentException("O cateto deve ser menor que a hipotenusa.");
-            return cateto * cateto / hipotenusa; // m = b²/a (ou n = c²/a)
+            return ValidarResultado(cateto * (cateto / hipotenusa), "A projeção calculada excede o intervalo numérico suportado."); // m = b²/a (ou n = c²/a)
         }
 
         public static double CalcularHipotenusaPelasProjecoes(double m, double n)
         {
             ValidarPositivo(m, "A projeção m");
             ValidarPositivo(n, "A projeção n");
-            return m + n; // a = m+n
+            return ValidarResultado(m + n, "A hipotenusa calculada excede o intervalo numérico suportado."); // a = m+n
+        }
+
+        // Calcula o quarto valor da relação a·h = b·c; os argumentos são os outros três valores.
+        public static double CalcularPelaRelacaoAltura(double primeiro, double segundo, double terceiro)
+        {
+            ValidarPositivo(primeiro, "A primeira medida");
+            ValidarPositivo(segundo, "A segunda medida");
+            ValidarPositivo(terceiro, "A terceira medida");
+            return ValidarResultado(primeiro * (segundo / terceiro), "O resultado excede o intervalo numérico suportado.");
         }
 
         private static void ValidarPositivo(double valor, string nome)
         {
             if (double.IsNaN(valor) || double.IsInfinity(valor) || valor <= 0)
                 throw new ArgumentOutOfRangeException("valor", nome + " deve ser maior que zero.");
+        }
+
+        private static double ValidarResultado(double resultado, string mensagem)
+        {
+            if (double.IsNaN(resultado) || double.IsInfinity(resultado) || resultado <= 0)
+                throw new ArgumentOutOfRangeException("resultado", mensagem);
+            return resultado;
         }
     }
 }

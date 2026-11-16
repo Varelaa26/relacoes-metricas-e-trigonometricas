@@ -1,5 +1,4 @@
 ﻿using System;
-
 namespace Relaçoes_métricas_e_trigonométricas
 {
     class Pitagoras
@@ -8,7 +7,8 @@ namespace Relaçoes_métricas_e_trigonométricas
         {
             ValidarLado(cateto1, "O primeiro cateto");
             ValidarLado(cateto2, "O segundo cateto");
-            return Math.Sqrt(cateto1 * cateto1 + cateto2 * cateto2);
+            double escala = Math.Max(cateto1, cateto2);
+            return ValidarResultado(escala * Math.Sqrt(Math.Pow(cateto1 / escala, 2) + Math.Pow(cateto2 / escala, 2)));
         }
 
 
@@ -18,7 +18,8 @@ namespace Relaçoes_métricas_e_trigonométricas
             ValidarLado(cateto, "O cateto");
             if (cateto >= hipotenusa)
                 throw new ArgumentException("O cateto deve ser menor que a hipotenusa.");
-            return Math.Sqrt(hipotenusa * hipotenusa - cateto * cateto);
+            double razao = cateto / hipotenusa;
+            return ValidarResultado(hipotenusa * Math.Sqrt((1.0 - razao) * (1.0 + razao)));
         }
 
         private static void ValidarLado(double valor, string nome)
@@ -27,6 +28,11 @@ namespace Relaçoes_métricas_e_trigonométricas
                 throw new ArgumentOutOfRangeException("valor", nome + " deve ser finito e maior que zero.");
         }
 
-        // Adicionarei também a descrição e explicação do teorema, pra ser chamado lá na função de ajuda
+        private static double ValidarResultado(double resultado)
+        {
+            if (double.IsNaN(resultado) || double.IsInfinity(resultado) || resultado <= 0)
+                throw new ArgumentOutOfRangeException("resultado", "O resultado excede o intervalo numérico suportado.");
+            return resultado;
+        }
     }
 }

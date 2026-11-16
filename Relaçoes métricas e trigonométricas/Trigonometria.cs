@@ -63,18 +63,18 @@ namespace Relaçoes_métricas_e_trigonométricas
             {
                 case 1: // hipotenusa
                     hipotenusa = valor;
-                    catetoOposto = hipotenusa * seno;
-                    catetoAdjacente = hipotenusa * cosseno;
+                    catetoOposto = ValidarResultado(hipotenusa * seno);
+                    catetoAdjacente = ValidarResultado(hipotenusa * cosseno);
                     break;
                 case 2: // cateto oposto
                     catetoOposto = valor;
-                    hipotenusa = catetoOposto / seno;
-                    catetoAdjacente = catetoOposto / tangente;
+                    hipotenusa = ValidarResultado(catetoOposto / seno);
+                    catetoAdjacente = ValidarResultado(catetoOposto / tangente);
                     break;
                 case 3: // cateto adjacente
                     catetoAdjacente = valor;
-                    hipotenusa = catetoAdjacente / cosseno;
-                    catetoOposto = catetoAdjacente * tangente;
+                    hipotenusa = ValidarResultado(catetoAdjacente / cosseno);
+                    catetoOposto = ValidarResultado(catetoAdjacente * tangente);
                     break;
                 default:
                     throw new ArgumentException("Lado conhecido inválido.");
@@ -93,7 +93,7 @@ namespace Relaçoes_métricas_e_trigonométricas
             ValidarLado(hipotenusa, "A hipotenusa");
             if (catetoOposto >= hipotenusa)
                 throw new ArgumentException("O cateto oposto deve ser menor que a hipotenusa.");
-            return catetoOposto / hipotenusa;
+            return ValidarResultado(catetoOposto / hipotenusa);
         }
         public static double CalcularCosseno(double catetoAdjacente, double hipotenusa)
         {
@@ -101,13 +101,13 @@ namespace Relaçoes_métricas_e_trigonométricas
             ValidarLado(hipotenusa, "A hipotenusa");
             if (catetoAdjacente >= hipotenusa)
                 throw new ArgumentException("O cateto adjacente deve ser menor que a hipotenusa.");
-            return catetoAdjacente / hipotenusa;
+            return ValidarResultado(catetoAdjacente / hipotenusa);
         }
         public static double CalcularTangente(double catetoOposto, double catetoAdjacente)
         {
             ValidarLado(catetoOposto, "O cateto oposto");
             ValidarLado(catetoAdjacente, "O cateto adjacente");
-            return catetoOposto / catetoAdjacente;
+            return ValidarResultado(catetoOposto / catetoAdjacente);
         }
 
         private static void ValidarLado(double lado, string nome)
@@ -116,6 +116,11 @@ namespace Relaçoes_métricas_e_trigonométricas
                 throw new ArgumentOutOfRangeException("lado", nome + " deve ser finito e maior que zero.");
         }
 
-        // Lembrar de adicionar método de ajuda
+        private static double ValidarResultado(double resultado)
+        {
+            if (double.IsNaN(resultado) || double.IsInfinity(resultado) || resultado <= 0)
+                throw new ArgumentOutOfRangeException("resultado", "O resultado excede o intervalo numérico suportado.");
+            return resultado;
+        }
     }
 }
