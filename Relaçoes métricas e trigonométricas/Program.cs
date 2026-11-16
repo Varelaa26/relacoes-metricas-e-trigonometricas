@@ -12,8 +12,9 @@ namespace Relaçoes_métricas_e_trigonométricas
             Console.WriteLine("Escolha o que quer calcular: ");
             Console.WriteLine("1 - Pitágoras");
             Console.WriteLine("2 - Razões trigonométricas");
-            Console.WriteLine("3 - Não sei ao certo");
-            Console.WriteLine("4 - Encerrar");
+            Console.WriteLine("3 - Relações métricas (altura e projeções)");
+            Console.WriteLine("4 - Não sei ao certo");
+            Console.WriteLine("5 - Encerrar");
 
             Console.Write("Digite o número da opção desejada: ");
             string escolha = Console.ReadLine();
@@ -26,9 +27,12 @@ namespace Relaçoes_métricas_e_trigonométricas
                     CalcularRazoesTrigonométricas();
                     break;
                 case "3":
-                    //Ajuda();
+                    CalcularRelacoesMetricas();
                     break;
                 case "4":
+                    Ajuda();
+                    break;
+                case "5":
                     Console.WriteLine("Encerrando o programa...");
                     break;
                 default:
@@ -98,6 +102,65 @@ namespace Relaçoes_métricas_e_trigonométricas
                 }
 
                 Console.WriteLine("Valor inválido. Digite um número maior que zero.");
+            }
+        }
+
+        static void CalcularRelacoesMetricas()
+        {
+            try
+            {
+                Console.WriteLine("Relações métricas no triângulo retângulo:");
+                Console.WriteLine("1 - Altura pela projeções (h² = m·n)");
+                Console.WriteLine("2 - Altura pelos catetos (b·c = a·h)");
+                Console.WriteLine("3 - Cateto pela hipotenusa e sua projeção (b² = a·m)");
+                Console.WriteLine("4 - Projeção pela hipotenusa e cateto (m = b²/a)");
+                Console.WriteLine("5 - Hipotenusa pela soma das projeções (a = m+n)");
+                Console.WriteLine("6 - Ver explicação das relações");
+                Console.WriteLine("7 - Voltar");
+                Console.Write("Digite o número da opção desejada: ");
+
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        double mAltura = LerNumeroPositivo("Digite a projeção m: ");
+                        double nAltura = LerNumeroPositivo("Digite a projeção n: ");
+                        Console.WriteLine("Altura h: {0}", Metricas.CalcularAltura(mAltura, nAltura));
+                        break;
+                    case "2":
+                        double b = LerNumeroPositivo("Digite o primeiro cateto: ");
+                        double c = LerNumeroPositivo("Digite o segundo cateto: ");
+                        Console.WriteLine("Altura h: {0}", Metricas.CalcularAlturaPelosCatetos(b, c));
+                        break;
+                    case "3":
+                        double hipotenusaCateto = LerNumeroPositivo("Digite a hipotenusa a: ");
+                        double projecaoCateto = LerNumeroPositivo("Digite a projeção correspondente (m ou n): ");
+                        Console.WriteLine("Cateto: {0}", Metricas.CalcularCateto(hipotenusaCateto, projecaoCateto));
+                        break;
+                    case "4":
+                        double catetoProjecao = LerNumeroPositivo("Digite o cateto correspondente: ");
+                        double hipotenusaProjecao = LerNumeroPositivo("Digite a hipotenusa a: ");
+                        Console.WriteLine("Projeção correspondente: {0}", Metricas.CalcularProjecao(catetoProjecao, hipotenusaProjecao));
+                        break;
+                    case "5":
+                        double m = LerNumeroPositivo("Digite a projeção m: ");
+                        double n = LerNumeroPositivo("Digite a projeção n: ");
+                        Console.WriteLine("Hipotenusa a: {0}", Metricas.CalcularHipotenusaPelasProjecoes(m, n));
+                        break;
+                    case "6":
+                        Console.WriteLine("A altura h traçada do ângulo reto divide a hipotenusa a em duas projeções, m e n.");
+                        Console.WriteLine("As relações são: a = m+n; h² = m·n; b² = a·m; c² = a·n; b·c = a·h.");
+                        break;
+                    case "7":
+                        Main();
+                        return;
+                    default:
+                        Console.WriteLine("Opção inválida.");
+                        break;
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine("Não foi possível calcular: {0}", ex.Message);
             }
         }
 
@@ -198,8 +261,8 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         static void Ajuda()
         {
-            // Implementar função de ajuda, pensei em um menu explicando cada opção
-            // Ainda não tenho certeza se vou fazer o menu interativo ou apenas um manual simples
+            Console.WriteLine("Escolha Pitágoras para lados do triângulo, razões trigonométricas para ângulos e relações métricas para altura e projeções.");
+            Console.WriteLine("Nas relações métricas, a é a hipotenusa, b e c são os catetos, h é a altura, e m e n são as projeções dos catetos sobre a hipotenusa.");
         }
     }
 }
