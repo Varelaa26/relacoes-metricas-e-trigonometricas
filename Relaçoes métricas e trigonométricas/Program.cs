@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.IO;
 
 namespace Relaçoes_métricas_e_trigonométricas
 {
@@ -8,31 +9,29 @@ namespace Relaçoes_métricas_e_trigonométricas
         private static string _secaoAjudaAtual;
         private static string _tituloMenuAtual;
         private static string[] _opcoesMenuAtual;
+        private static string _statusAtual;
 
         private static void Main()
         {
             while (true)
             {
-                Console.WriteLine("\n--- Relações métricas e trigonométricas ---\n");
-                Console.WriteLine("1 - Triângulo retângulo (calcular lado ou resolver completo)");
-                Console.WriteLine("2 - Razões trigonométricas");
-                Console.WriteLine("3 - Relações métricas (altura e projeções)");
-                Console.WriteLine("4 - Área e perímetro");
-                Console.WriteLine("5 - Ajuda e exemplos");
-                Console.WriteLine("6 - Encerrar");
-                Console.Write("O que você deseja fazer? Digite uma opção: ");
+                DesenharMenuPrincipal();
 
                 try
                 {
-                    switch (Console.ReadLine())
+                    string opcaoPrincipal = Console.ReadLine();
+                    switch (opcaoPrincipal)
                     {
-                        case "1": CalcularTriangulo(); break;
-                        case "2": CalcularRazoesTrigonométricas(); break;
-                        case "3": CalcularRelacoesMetricas(); break;
-                        case "4": CalcularAreaEPerimetro(); break;
-                        case "5": Ajuda(); break;
-                        case "6": Console.WriteLine("Programa encerrado."); return;
-                        default: Console.WriteLine("Opção inválida. Escolha uma opção de 1 a 6."); break;
+                        case "1": _statusAtual = null; CalcularTriangulo(); break;
+                        case "2": _statusAtual = null; CalcularRazoesTrigonométricas(); break;
+                        case "3": _statusAtual = null; CalcularRelacoesMetricas(); break;
+                        case "4": _statusAtual = null; CalcularAreaEPerimetro(); break;
+                        case "5": _statusAtual = null; Ajuda(); break;
+                        case "6":
+                            MostrarResultado("Programa encerrado", "Pressione Enter para fechar o programa.",
+                                new string[] { "Até a próxima!" });
+                            return;
+                        default: _statusAtual = "Opção inválida. Escolha uma opção de 1 a 6."; break;
                     }
                 }
                 catch (MenuPrincipalException)
@@ -55,7 +54,7 @@ namespace Relaçoes_métricas_e_trigonométricas
                 if (pedido == "0") throw new MenuPrincipalException();
                 if (pedido != "1" && pedido != "2")
                 {
-                    Console.WriteLine("Opção inválida. Escolha 1 ou 2.");
+                    _statusAtual = "Opção inválida. Escolha 1 ou 2.";
                     continue;
                 }
 
@@ -66,13 +65,13 @@ namespace Relaçoes_métricas_e_trigonométricas
 
                     if (pedido == "1")
                     {
-                        Console.WriteLine("\n[Resultado solicitado] Lado calculado: {0} = {1}", ladoFaltante, valorFaltante);
+                        MostrarResultado("Resultado solicitado",
+                            string.Format("{0} = {1}", ladoFaltante, valorFaltante));
                     }
                     else
                     {
                         double angulo = Math.Atan(oposto / adjacente) * 180.0 / Math.PI;
-                        Console.WriteLine("\n[Resultado solicitado] Triângulo completo:");
-                        ImprimirTriangulo(oposto, adjacente, hipotenusa, angulo);
+                        MostrarResultado("Triângulo completo", LinhasTriangulo(oposto, adjacente, hipotenusa, angulo));
                     }
                     return;
                 }
@@ -82,7 +81,7 @@ namespace Relaçoes_métricas_e_trigonométricas
                 }
                 catch (ArgumentException ex)
                 {
-                    Console.WriteLine("Não foi possível atender ao cálculo solicitado: {0}", ex.Message);
+                    _statusAtual = "Não foi possível atender ao cálculo solicitado: " + ex.Message;
                     return;
                 }
             }
@@ -149,29 +148,30 @@ namespace Relaçoes_métricas_e_trigonométricas
                     switch (escolha)
                     {
                         case "1":
-                            Console.WriteLine("Seno: {0}", Triogonometria.CalcularSeno(
-                                LerNumeroPositivo("Cateto oposto: "), LerNumeroPositivo("Hipotenusa: ")));
+                            MostrarResultado("Resultado - seno", string.Format("Seno: {0}", Triogonometria.CalcularSeno(
+                                LerNumeroPositivo("Cateto oposto: "), LerNumeroPositivo("Hipotenusa: "))));
                             return;
                         case "2":
-                            Console.WriteLine("Cosseno: {0}", Triogonometria.CalcularCosseno(
-                                LerNumeroPositivo("Cateto adjacente: "), LerNumeroPositivo("Hipotenusa: ")));
+                            MostrarResultado("Resultado - cosseno", string.Format("Cosseno: {0}", Triogonometria.CalcularCosseno(
+                                LerNumeroPositivo("Cateto adjacente: "), LerNumeroPositivo("Hipotenusa: "))));
                             return;
                         case "3":
-                            Console.WriteLine("Tangente: {0}", Triogonometria.CalcularTangente(
-                                LerNumeroPositivo("Cateto oposto: "), LerNumeroPositivo("Cateto adjacente: ")));
+                            MostrarResultado("Resultado - tangente", string.Format("Tangente: {0}", Triogonometria.CalcularTangente(
+                                LerNumeroPositivo("Cateto oposto: "), LerNumeroPositivo("Cateto adjacente: "))));
                             return;
                         case "4":
                             double angulo = LerAngulo();
-                            Console.WriteLine("Seno: {0}; cosseno: {1}; tangente: {2}",
-                                Triogonometria.CalcularSenoDoAngulo(angulo),
-                                Triogonometria.CalcularCossenoDoAngulo(angulo),
-                                Triogonometria.CalcularTangenteDoAngulo(angulo));
+                            MostrarResultado("Razões trigonométricas",
+                                string.Format("Ângulo: {0}°", angulo),
+                                string.Format("Seno: {0}", Triogonometria.CalcularSenoDoAngulo(angulo)),
+                                string.Format("Cosseno: {0}", Triogonometria.CalcularCossenoDoAngulo(angulo)),
+                                string.Format("Tangente: {0}", Triogonometria.CalcularTangenteDoAngulo(angulo)));
                             return;
                         case "5":
                             CalcularAnguloELados();
                             return;
                         default:
-                            Console.WriteLine("Opção inválida. Escolha uma opção de 1 a 5.");
+                            _statusAtual = "Opção inválida. Escolha uma opção de 1 a 5.";
                             break;
                     }
                 }
@@ -181,7 +181,7 @@ namespace Relaçoes_métricas_e_trigonométricas
                 }
                 catch (ArgumentException ex)
                 {
-                    Console.WriteLine("Não foi possível calcular: {0}", ex.Message);
+                    _statusAtual = "Não foi possível calcular: " + ex.Message;
                     return;
                 }
             }
@@ -196,9 +196,7 @@ namespace Relaçoes_métricas_e_trigonométricas
             int razao = LerOpcao(1, 3, "Escolha a razão: ");
             double valor = LerNumeroPositivo("[Etapa 2 de 3] Digite o valor dessa razão: ");
             double angulo = Triogonometria.CalcularAngulo(razao, valor);
-            Console.WriteLine("Ângulo: {0}°", angulo);
-
-            DefinirMenu("2", "[Etapa 3 de 3] Qual lado você conhece?",
+            DefinirMenu("2", string.Format("[Etapa 3 de 3] Ângulo calculado: {0}°. Qual lado você conhece?", angulo),
                 "1 - Hipotenusa",
                 "2 - Cateto oposto",
                 "3 - Cateto adjacente");
@@ -206,15 +204,14 @@ namespace Relaçoes_métricas_e_trigonométricas
             double conhecido = LerNumeroPositivo("Digite o valor do lado conhecido: ");
             Triogonometria.CalcularLados(angulo, lado, conhecido,
                 out double oposto, out double adjacente, out double hipotenusa);
-            ImprimirTriangulo(oposto, adjacente, hipotenusa, angulo);
+            MostrarResultado("Triângulo resolvido", LinhasTriangulo(oposto, adjacente, hipotenusa, angulo));
         }
 
         private static void CalcularRelacoesMetricas()
         {
             while (true)
             {
-                Console.WriteLine("Convenção: b²=a·m; c²=a·n; h²=m·n; a=m+n; a·h=b·c.");
-                DefinirMenu("3", "[Relações métricas] Escolha qual medida deseja encontrar:",
+                DefinirMenu("3", "[Relações métricas] Escolha uma medida. Convenções: b²=a·m; c²=a·n; h²=m·n; a=m+n; a·h=b·c.",
                     "1 - Altura h por projeções m e n",
                     "2 - Altura h por catetos b e c",
                     "3 - Cateto b por hipotenusa a e projeção m",
@@ -235,21 +232,21 @@ namespace Relaçoes_métricas_e_trigonométricas
                     switch (escolha)
                     {
                         case "1":
-                            Console.WriteLine("Altura h: {0}", Metricas.CalcularAlturaPelasProjecoes(
+                            MostrarValor("Altura h", Metricas.CalcularAlturaPelasProjecoes(
                                 LerNumeroPositivo("Projeção m: "), LerNumeroPositivo("Projeção n: ")));
                             return;
                         case "2":
-                            Console.WriteLine("Altura h: {0}", Metricas.CalcularAlturaPelosCatetos(
+                            MostrarValor("Altura h", Metricas.CalcularAlturaPelosCatetos(
                                 LerNumeroPositivo("Cateto b: "), LerNumeroPositivo("Cateto c: ")));
                             return;
                         case "3":
                             double a = LerNumeroPositivo("Hipotenusa a: ");
-                            Console.WriteLine("Cateto b: {0}", Metricas.CalcularCateto(a,
+                            MostrarValor("Cateto b", Metricas.CalcularCateto(a,
                                 LerNumeroPositivoAbaixoDe("Projeção m: ", a)));
                             return;
                         case "4":
                             a = LerNumeroPositivo("Hipotenusa a: ");
-                            Console.WriteLine("Cateto c: {0}", Metricas.CalcularCateto(a,
+                            MostrarValor("Cateto c", Metricas.CalcularCateto(a,
                                 LerNumeroPositivoAbaixoDe("Projeção n: ", a)));
                             return;
                         case "5":
@@ -260,34 +257,34 @@ namespace Relaçoes_métricas_e_trigonométricas
                             int qual = LerOpcao(1, 2, "Escolha uma opção: ");
                             double cateto = LerNumeroPositivoAbaixoDe(
                                 qual == 1 ? "Cateto b: " : "Cateto c: ", a);
-                            Console.WriteLine("Projeção: {0}", Metricas.CalcularProjecao(cateto, a));
+                            MostrarValor("Projeção", Metricas.CalcularProjecao(cateto, a));
                             return;
                         case "6":
-                            Console.WriteLine("Hipotenusa a: {0}", Metricas.CalcularHipotenusaPelasProjecoes(
+                            MostrarValor("Hipotenusa a", Metricas.CalcularHipotenusaPelasProjecoes(
                                 LerNumeroPositivo("Projeção m: "), LerNumeroPositivo("Projeção n: ")));
                             return;
                         case "7":
-                            Console.WriteLine("Cateto c: {0}", Metricas.CalcularPelaRelacaoAltura(
+                            MostrarValor("Cateto c", Metricas.CalcularPelaRelacaoAltura(
                                 LerNumeroPositivo("Hipotenusa a: "), LerNumeroPositivo("Altura h: "),
                                 LerNumeroPositivo("Cateto b: ")));
                             return;
                         case "8":
-                            Console.WriteLine("Cateto b: {0}", Metricas.CalcularPelaRelacaoAltura(
+                            MostrarValor("Cateto b", Metricas.CalcularPelaRelacaoAltura(
                                 LerNumeroPositivo("Hipotenusa a: "), LerNumeroPositivo("Altura h: "),
                                 LerNumeroPositivo("Cateto c: ")));
                             return;
                         case "9":
-                            Console.WriteLine("Altura h: {0}", Metricas.CalcularPelaRelacaoAltura(
+                            MostrarValor("Altura h", Metricas.CalcularPelaRelacaoAltura(
                                 LerNumeroPositivo("Cateto b: "), LerNumeroPositivo("Cateto c: "),
                                 LerNumeroPositivo("Hipotenusa a: ")));
                             return;
                         case "10":
-                            Console.WriteLine("Hipotenusa a: {0}", Metricas.CalcularPelaRelacaoAltura(
+                            MostrarValor("Hipotenusa a", Metricas.CalcularPelaRelacaoAltura(
                                 LerNumeroPositivo("Cateto b: "), LerNumeroPositivo("Cateto c: "),
                                 LerNumeroPositivo("Altura h: ")));
                             return;
                         default:
-                            Console.WriteLine("Opção inválida. Escolha uma opção de 1 a 10.");
+                            _statusAtual = "Opção inválida. Escolha uma opção de 1 a 10.";
                             break;
                     }
                 }
@@ -297,7 +294,7 @@ namespace Relaçoes_métricas_e_trigonométricas
                 }
                 catch (ArgumentException ex)
                 {
-                    Console.WriteLine("Não foi possível calcular: {0}", ex.Message);
+                    _statusAtual = "Não foi possível calcular: " + ex.Message;
                     return;
                 }
             }
@@ -321,20 +318,20 @@ namespace Relaçoes_métricas_e_trigonométricas
                     switch (escolha)
                     {
                         case "1":
-                            Console.WriteLine("Área: {0}", Metricas.CalcularArea(
+                            MostrarValor("Área", Metricas.CalcularArea(
                                 LerNumeroPositivo("Base: "), LerNumeroPositivo("Altura: ")));
                             return;
                         case "2":
-                            Console.WriteLine("Perímetro: {0}", Metricas.CalcularPerimetro(
+                            MostrarValor("Perímetro", Metricas.CalcularPerimetro(
                                 LerNumeroPositivo("Cateto 1: "), LerNumeroPositivo("Cateto 2: ")));
                             return;
                         case "3":
-                            Console.WriteLine("Perímetro: {0}", Metricas.CalcularPerimetroDoTriangulo(
+                            MostrarValor("Perímetro", Metricas.CalcularPerimetroDoTriangulo(
                                 LerNumeroPositivo("Lado 1: "), LerNumeroPositivo("Lado 2: "),
                                 LerNumeroPositivo("Lado 3: ")));
                             return;
                         default:
-                            Console.WriteLine("Opção inválida. Escolha uma opção de 1 a 3.");
+                            _statusAtual = "Opção inválida. Escolha uma opção de 1 a 3.";
                             break;
                     }
                 }
@@ -344,7 +341,7 @@ namespace Relaçoes_métricas_e_trigonométricas
                 }
                 catch (ArgumentException ex)
                 {
-                    Console.WriteLine("Não foi possível calcular: {0}", ex.Message);
+                    _statusAtual = "Não foi possível calcular: " + ex.Message;
                     return;
                 }
             }
@@ -372,7 +369,7 @@ namespace Relaçoes_métricas_e_trigonométricas
                     case "3": Metricas.ExibirAjudaRelacoesMetricas(); break;
                     case "4": Metricas.ExibirAjudaAreaEPerimetro(); break;
                     case "5": AjudaArquivo.ExibirSecao("5"); break;
-                    default: Console.WriteLine("Opção inválida. Escolha uma opção de 1 a 5."); break;
+                    default: _statusAtual = "Opção inválida. Escolha uma opção de 1 a 5."; break;
                 }
             }
         }
@@ -382,17 +379,24 @@ namespace Relaçoes_métricas_e_trigonométricas
             _secaoAjudaAtual = secaoAjuda;
             _tituloMenuAtual = titulo;
             _opcoesMenuAtual = opcoes;
-            ExibirMenuAtual();
         }
 
-        private static void ExibirMenuAtual()
+        private static void DesenharMenuPrincipal()
         {
-            Console.WriteLine();
-            Console.WriteLine(_tituloMenuAtual);
-            foreach (string opcao in _opcoesMenuAtual) Console.WriteLine(opcao);
-            Console.WriteLine("? - Ajuda");
-            Console.WriteLine("x - Voltar");
-            Console.WriteLine("0 - Menu principal");
+            LimparTela();
+            DesenharQuadro(new string[]
+            {
+                "RELAÇÕES MÉTRICAS E TRIGONOMÉTRICAS",
+                "1 - Triângulo retângulo (calcular lado ou resolver completo)",
+                "2 - Razões trigonométricas",
+                "3 - Relações métricas (altura e projeções)",
+                "4 - Área e perímetro",
+                "5 - Ajuda e exemplos",
+                "6 - Encerrar",
+                _statusAtual ?? string.Empty,
+                "O que você deseja fazer? Digite uma opção:"
+            });
+            Console.Write("> ");
         }
 
         private static string LerOpcaoMenu(string mensagem)
@@ -404,13 +408,82 @@ namespace Relaçoes_métricas_e_trigonométricas
         {
             while (true)
             {
-                Console.Write(mensagem);
+                DesenharTelaEntrada(mensagem);
                 string entrada = Console.ReadLine();
-                if (entrada != "?") return entrada;
+                if (entrada != "?")
+                {
+                    _statusAtual = null;
+                    return entrada;
+                }
 
                 AjudaArquivo.ExibirSecao(_secaoAjudaAtual);
-                ExibirMenuAtual();
             }
+        }
+
+        private static void DesenharTelaEntrada(string mensagem)
+        {
+            LimparTela();
+            var linhas = new System.Collections.Generic.List<string>();
+            linhas.Add(_tituloMenuAtual ?? "");
+            if (_opcoesMenuAtual != null) linhas.AddRange(_opcoesMenuAtual);
+            linhas.Add("? - Ajuda");
+            linhas.Add("x - Voltar");
+            linhas.Add("0 - Menu principal");
+            if (!string.IsNullOrEmpty(_statusAtual)) linhas.Add(_statusAtual);
+            linhas.Add(mensagem);
+            DesenharQuadro(linhas);
+            Console.Write("> ");
+        }
+
+        private static void MostrarResultado(string titulo, params string[] linhas)
+        {
+            MostrarResultado(titulo, "Pressione Enter para voltar ao menu.", linhas);
+        }
+
+        private static void MostrarResultado(string titulo, string instrucao, string[] linhas)
+        {
+            LimparTela();
+            var conteudo = new System.Collections.Generic.List<string>();
+            conteudo.Add(titulo);
+            conteudo.AddRange(linhas);
+            conteudo.Add(string.Empty);
+            conteudo.Add(instrucao);
+            DesenharQuadro(conteudo);
+            Console.ReadLine();
+        }
+
+        private static void DesenharQuadro(System.Collections.Generic.IEnumerable<string> linhas)
+        {
+            const int larguraConteudo = 76;
+            string borda = "+" + new string('-', larguraConteudo + 2) + "+";
+            Console.WriteLine(borda);
+            foreach (string linha in linhas)
+            {
+                string restante = linha ?? string.Empty;
+                if (restante.Length == 0)
+                {
+                    Console.WriteLine("| " + new string(' ', larguraConteudo) + " |");
+                    continue;
+                }
+
+                while (restante.Length > larguraConteudo)
+                {
+                    int corte = restante.LastIndexOf(' ', larguraConteudo);
+                    if (corte <= 0) corte = larguraConteudo;
+                    Console.WriteLine("| " + restante.Substring(0, corte).PadRight(larguraConteudo) + " |");
+                    restante = restante.Substring(corte).TrimStart();
+                }
+                Console.WriteLine("| " + restante.PadRight(larguraConteudo) + " |");
+            }
+            Console.WriteLine(borda);
+        }
+
+        private static void LimparTela()
+        {
+            try { Console.Clear(); }
+            catch (IOException) { }
+            catch (PlatformNotSupportedException) { }
+            catch (InvalidOperationException) { }
         }
 
         private static int LerOpcao(int minimo, int maximo, string mensagem)
@@ -425,7 +498,7 @@ namespace Relaçoes_métricas_e_trigonométricas
                 if (int.TryParse(entrada, out valor) && valor >= minimo && valor <= maximo)
                     return valor;
 
-                Console.WriteLine("Opção inválida. Digite um número de {0} a {1}.", minimo, maximo);
+                _statusAtual = string.Format("Opção inválida. Digite um número de {0} a {1}.", minimo, maximo);
             }
         }
 
@@ -441,7 +514,7 @@ namespace Relaçoes_métricas_e_trigonométricas
                     && !double.IsNaN(valor) && !double.IsInfinity(valor) && valor > 0)
                     return valor;
 
-                Console.WriteLine("Valor inválido. Digite um número finito maior que zero (use vírgula ou ponto conforme a configuração do sistema).");
+                _statusAtual = "Valor inválido. Digite um número finito maior que zero (use vírgula ou ponto conforme a configuração do sistema).";
             }
         }
 
@@ -451,7 +524,7 @@ namespace Relaçoes_métricas_e_trigonométricas
             {
                 double valor = LerNumeroPositivo(mensagem);
                 if (valor < limite) return valor;
-                Console.WriteLine("O valor precisa ser menor que {0}.", limite);
+                _statusAtual = string.Format("O valor precisa ser menor que {0}.", limite);
             }
         }
 
@@ -461,16 +534,24 @@ namespace Relaçoes_métricas_e_trigonométricas
             {
                 double valor = LerNumeroPositivo("Ângulo em graus (maior que 0 e menor que 90): ");
                 if (valor < 90) return valor;
-                Console.WriteLine("Um ângulo agudo precisa ser menor que 90°.");
+                _statusAtual = "Um ângulo agudo precisa ser menor que 90°.";
             }
         }
 
-        private static void ImprimirTriangulo(double oposto, double adjacente, double hipotenusa, double angulo)
+        private static string[] LinhasTriangulo(double oposto, double adjacente, double hipotenusa, double angulo)
         {
-            Console.WriteLine("Cateto oposto: {0}", oposto);
-            Console.WriteLine("Cateto adjacente: {0}", adjacente);
-            Console.WriteLine("Hipotenusa: {0}", hipotenusa);
-            Console.WriteLine("Ângulo informado/calculado: {0}°; outro ângulo agudo: {1}°", angulo, 90 - angulo);
+            return new string[]
+            {
+                string.Format("Cateto oposto: {0}", oposto),
+                string.Format("Cateto adjacente: {0}", adjacente),
+                string.Format("Hipotenusa: {0}", hipotenusa),
+                string.Format("Ângulo informado/calculado: {0}°; outro ângulo agudo: {1}°", angulo, 90 - angulo)
+            };
+        }
+
+        private static void MostrarValor(string nome, double valor)
+        {
+            MostrarResultado("Resultado do cálculo", string.Format("{0}: {1}", nome, valor));
         }
 
         private sealed class VoltarMenuException : Exception { }
