@@ -89,15 +89,31 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         public static double CalcularSeno(double catetoOposto, double hipotenusa)
         {
+            ValidarLado(catetoOposto, "O cateto oposto");
+            ValidarLado(hipotenusa, "A hipotenusa");
+            if (catetoOposto >= hipotenusa)
+                throw new ArgumentException("O cateto oposto deve ser menor que a hipotenusa.");
             return catetoOposto / hipotenusa;
         }
         public static double CalcularCosseno(double catetoAdjacente, double hipotenusa)
         {
+            ValidarLado(catetoAdjacente, "O cateto adjacente");
+            ValidarLado(hipotenusa, "A hipotenusa");
+            if (catetoAdjacente >= hipotenusa)
+                throw new ArgumentException("O cateto adjacente deve ser menor que a hipotenusa.");
             return catetoAdjacente / hipotenusa;
         }
         public static double CalcularTangente(double catetoOposto, double catetoAdjacente)
         {
+            ValidarLado(catetoOposto, "O cateto oposto");
+            ValidarLado(catetoAdjacente, "O cateto adjacente");
             return catetoOposto / catetoAdjacente;
+        }
+
+        private static void ValidarLado(double lado, string nome)
+        {
+            if (double.IsNaN(lado) || double.IsInfinity(lado) || lado <= 0)
+                throw new ArgumentOutOfRangeException("lado", nome + " deve ser finito e maior que zero.");
         }
 
         // Lembrar de adicionar método de ajuda
