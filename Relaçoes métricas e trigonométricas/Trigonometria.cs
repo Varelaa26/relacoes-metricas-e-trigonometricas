@@ -4,6 +4,11 @@ namespace Relaçoes_métricas_e_trigonométricas
 {
     internal class Triogonometria
     {
+        public static void ExibirAjuda()
+        {
+            AjudaArquivo.ExibirSecao("2");
+        }
+
         public static double CalcularSenoDoAngulo(double angulo)
         {
             ValidarAngulo(angulo);

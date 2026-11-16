@@ -5,6 +5,16 @@ namespace Relaçoes_métricas_e_trigonométricas
 {
     internal class Metricas
     {
+        public static void ExibirAjudaRelacoesMetricas()
+        {
+            AjudaArquivo.ExibirSecao("3");
+        }
+
+        public static void ExibirAjudaAreaEPerimetro()
+        {
+            AjudaArquivo.ExibirSecao("4");
+        }
+
         public static double CalcularArea(double baseTriangulo, double altura)
         {
             ValidarPositivo(baseTriangulo, "A base");

@@ -3,6 +3,11 @@ namespace Relaçoes_métricas_e_trigonométricas
 {
     class Pitagoras
     {
+        public static void ExibirAjuda()
+        {
+            AjudaArquivo.ExibirSecao("1");
+        }
+
         public static double CalcularHipotenusa(double cateto1, double cateto2)
         {
             ValidarLado(cateto1, "O primeiro cateto");

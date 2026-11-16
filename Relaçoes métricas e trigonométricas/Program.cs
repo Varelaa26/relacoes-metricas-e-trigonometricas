@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.IO;
 
 namespace Relaçoes_métricas_e_trigonométricas
 {
@@ -254,13 +253,6 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         private static void Ajuda()
         {
-            string caminho = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ajuda.txt");
-            if (!File.Exists(caminho))
-            {
-                Console.WriteLine("Arquivo de ajuda não encontrado: {0}", caminho);
-                return;
-            }
-
             while (true)
             {
                 Console.WriteLine("\n[Ajuda e exemplos] Escolha um assunto:");
@@ -280,28 +272,15 @@ namespace Relaçoes_métricas_e_trigonométricas
                     continue;
                 }
 
-                ImprimirSecaoAjuda(caminho, opcao);
-            }
-        }
-
-        private static void ImprimirSecaoAjuda(string caminho, string opcao)
-        {
-            string marcador = "[AJUDA:" + opcao + "]";
-            bool imprimir = false;
-            bool encontrou = false;
-            foreach (string linha in File.ReadLines(caminho))
-            {
-                if (linha.Trim() == marcador)
+                switch (opcao)
                 {
-                    imprimir = true;
-                    encontrou = true;
-                    continue;
+                    case "1": Pitagoras.ExibirAjuda(); break;
+                    case "2": Triogonometria.ExibirAjuda(); break;
+                    case "3": Metricas.ExibirAjudaRelacoesMetricas(); break;
+                    case "4": Metricas.ExibirAjudaAreaEPerimetro(); break;
+                    case "5": AjudaArquivo.ExibirSecao("5"); break;
                 }
-                if (imprimir && linha.Trim() == "[FIM]") break;
-                if (imprimir) Console.WriteLine(linha);
             }
-
-            if (!encontrou) Console.WriteLine("Não há conteúdo cadastrado para esse assunto no arquivo Ajuda.txt.");
         }
 
     }
