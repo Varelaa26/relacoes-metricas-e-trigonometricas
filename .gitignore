@@ -1,13 +1,15 @@
-## Visual Studio
+# Visual Studio
 .vs/
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
 
-## Build output
+# Build output
 **/bin/
 **/obj/
-
-## Test output
 TestResults/
+
+# Temporary files
+*.tmp
+*.log

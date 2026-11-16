@@ -1,9 +1,8 @@
 ﻿using System;
 
-
 namespace Relaçoes_métricas_e_trigonométricas
 {
-    internal class sin_cos_tan
+    internal class Triogonometria
     {
         public static double CalcularSenoDoAngulo(double angulo)
         {
@@ -100,5 +99,7 @@ namespace Relaçoes_métricas_e_trigonométricas
         {
             return catetoOposto / catetoAdjacente;
         }
+
+        // Lembrar de adicionar método de ajuda
     }
 }

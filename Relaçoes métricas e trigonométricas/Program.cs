@@ -119,26 +119,26 @@ namespace Relaçoes_métricas_e_trigonométricas
                     case "1":
                         double catetoOpostoSeno = LerNumeroPositivo("Digite o valor do cateto oposto: ");
                         double hipotenusaSeno = LerNumeroPositivo("Digite o valor da hipotenusa: ");
-                        double seno = sin_cos_tan.CalcularSeno(catetoOpostoSeno, hipotenusaSeno);
+                        double seno = Triogonometria.CalcularSeno(catetoOpostoSeno, hipotenusaSeno);
                         Console.WriteLine("O valor do seno é: {0}", seno);
                         break;
                     case "2":
                         double catetoAdjacenteCosseno = LerNumeroPositivo("Digite o valor do cateto adjacente: ");
                         double hipotenusaCosseno = LerNumeroPositivo("Digite o valor da hipotenusa: ");
-                        double cosseno = sin_cos_tan.CalcularCosseno(catetoAdjacenteCosseno, hipotenusaCosseno);
+                        double cosseno = Triogonometria.CalcularCosseno(catetoAdjacenteCosseno, hipotenusaCosseno);
                         Console.WriteLine("O valor do cosseno é: {0}", cosseno);
                         break;
                     case "3":
                         double catetoOpostoTangente = LerNumeroPositivo("Digite o valor do cateto oposto: ");
                         double catetoAdjacenteTangente = LerNumeroPositivo("Digite o valor do cateto adjacente: ");
-                        double tangente = sin_cos_tan.CalcularTangente(catetoOpostoTangente, catetoAdjacenteTangente);
+                        double tangente = Triogonometria.CalcularTangente(catetoOpostoTangente, catetoAdjacenteTangente);
                         Console.WriteLine("O valor da tangente é: {0}", tangente);
                         break;
                     case "4":
                         double angulo = LerNumeroPositivo("Digite o ângulo em graus (entre 0 e 90): ");
-                        Console.WriteLine("Seno: {0}", sin_cos_tan.CalcularSenoDoAngulo(angulo));
-                        Console.WriteLine("Cosseno: {0}", sin_cos_tan.CalcularCossenoDoAngulo(angulo));
-                        Console.WriteLine("Tangente: {0}", sin_cos_tan.CalcularTangenteDoAngulo(angulo));
+                        Console.WriteLine("Seno: {0}", Triogonometria.CalcularSenoDoAngulo(angulo));
+                        Console.WriteLine("Cosseno: {0}", Triogonometria.CalcularCossenoDoAngulo(angulo));
+                        Console.WriteLine("Tangente: {0}", Triogonometria.CalcularTangenteDoAngulo(angulo));
                         break;
                     case "5":
                         CalcularAnguloELados();
@@ -173,7 +173,7 @@ namespace Relaçoes_métricas_e_trigonométricas
             }
 
             double valorRazao = LerNumeroPositivo("Digite o valor da razão: ");
-            double angulo = sin_cos_tan.CalcularAngulo(razao, valorRazao);
+            double angulo = Triogonometria.CalcularAngulo(razao, valorRazao);
             Console.WriteLine("Ângulo: {0}°", angulo);
 
             Console.WriteLine("Qual lado você conhece?");
@@ -190,7 +190,7 @@ namespace Relaçoes_métricas_e_trigonométricas
 
             double valorLado = LerNumeroPositivo("Digite o valor do lado conhecido: ");
             double oposto, adjacente, hipotenusa;
-            sin_cos_tan.CalcularLados(angulo, lado, valorLado, out oposto, out adjacente, out hipotenusa);
+            Triogonometria.CalcularLados(angulo, lado, valorLado, out oposto, out adjacente, out hipotenusa);
             Console.WriteLine("Cateto oposto: {0}", oposto);
             Console.WriteLine("Cateto adjacente: {0}", adjacente);
             Console.WriteLine("Hipotenusa: {0}", hipotenusa);
