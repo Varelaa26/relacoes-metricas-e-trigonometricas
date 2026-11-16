@@ -282,6 +282,10 @@ Escolha o número correspondente ao cálculo que deseja fazer.
 Nos submenus, leia as opções e informe os dados pedidos.
 Quando disponível, escolha 0 para voltar.
 
+Durante qualquer cálculo ou submenu, digite ? para consultar
+a ajuda do assunto atual. A ajuda aparece sem cancelar o
+cálculo; depois, basta continuar respondendo à pergunta.
+
 
 REGRAS PARA DIGITAR VALORES
 

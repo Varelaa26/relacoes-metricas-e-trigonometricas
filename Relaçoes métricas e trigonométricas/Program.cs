@@ -5,6 +5,8 @@ namespace Relaçoes_métricas_e_trigonométricas
 {
     internal class Program
     {
+        private static string _secaoAjudaAtual;
+
         private static void Main()
         {
             while (true)
@@ -32,12 +34,14 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         private static void CalcularTriangulo()
         {
+            _secaoAjudaAtual = "1";
+            Console.WriteLine("Digite \"?\" para obter ajuda.");
             Console.WriteLine("\n[Triângulo retângulo] Escolha o resultado desejado:");
             Console.WriteLine("1 - Encontrar um lado que falta");
             Console.WriteLine("2 - Resolver o triângulo completo (lados e ângulos)");
             Console.WriteLine("0 - Voltar ao menu principal");
             Console.Write("Qual cálculo deseja fazer? ");
-            string pedido = Console.ReadLine();
+            string pedido = LerEntrada();
             if (pedido == "0") return;
             if (pedido != "1" && pedido != "2") { Console.WriteLine("Opção inválida. Escolha 0, 1 ou 2."); return; }
 
@@ -100,12 +104,14 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         private static void CalcularRazoesTrigonométricas()
         {
+            _secaoAjudaAtual = "2";
+            Console.WriteLine("Digite \"?\" para obter ajuda.");
             Console.WriteLine("1 - Seno pelos lados | 2 - Cosseno pelos lados | 3 - Tangente pelos lados");
             Console.WriteLine("4 - Seno, cosseno e tangente por ângulo | 5 - Ângulo e demais lados | 0 - Voltar");
             Console.Write("[Razões trigonométricas] Qual cálculo deseja fazer? ");
             try
             {
-                switch (Console.ReadLine())
+                switch (LerEntrada())
                 {
                     case "1":
                         double op = LerNumeroPositivo("Cateto oposto: ");
@@ -149,6 +155,8 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         private static void CalcularRelacoesMetricas()
         {
+            _secaoAjudaAtual = "3";
+            Console.WriteLine("Digite \"?\" para obter ajuda.");
             Console.WriteLine("\n[Relações métricas] Escolha qual medida deseja encontrar:");
             Console.WriteLine("Convenção: a é a hipotenusa; b²=a·m; c²=a·n; h²=m·n; a=m+n; a·h=b·c.");
             Console.WriteLine("1 - h por m,n | 2 - h por b,c | 3 - b por a,m | 4 - c por a,n | 5 - projeção por a e cateto | 6 - a por m,n");
@@ -156,7 +164,7 @@ namespace Relaçoes_métricas_e_trigonométricas
             Console.Write("Qual cálculo deseja fazer? ");
             try
             {
-                switch (Console.ReadLine())
+                switch (LerEntrada())
                 {
                     case "1": Console.WriteLine("Altura h: {0}", Metricas.CalcularAlturaPelasProjecoes(LerNumeroPositivo("m: "), LerNumeroPositivo("n: "))); break;
                     case "2": Console.WriteLine("Altura h: {0}", Metricas.CalcularAlturaPelosCatetos(LerNumeroPositivo("Cateto b: "), LerNumeroPositivo("Cateto c: "))); break;
@@ -186,11 +194,13 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         private static void CalcularAreaEPerimetro()
         {
+            _secaoAjudaAtual = "4";
+            Console.WriteLine("Digite \"?\" para obter ajuda.");
             Console.WriteLine("1 - Área por base e altura | 2 - Perímetro de triângulo retângulo | 3 - Perímetro por três lados | 0 - Voltar");
             Console.Write("Escolha: ");
             try
             {
-                switch (Console.ReadLine())
+                switch (LerEntrada())
                 {
                     case "1": Console.WriteLine("Área: {0}", Metricas.CalcularArea(LerNumeroPositivo("Base: "), LerNumeroPositivo("Altura: "))); break;
                     case "2": Console.WriteLine("Perímetro: {0}", Metricas.CalcularPerimetro(LerNumeroPositivo("Cateto 1: "), LerNumeroPositivo("Cateto 2: "))); break;
@@ -215,7 +225,7 @@ namespace Relaçoes_métricas_e_trigonométricas
             while (true)
             {
                 int valor;
-                if (int.TryParse(Console.ReadLine(), out valor) && valor >= minimo && valor <= maximo) return valor;
+                if (int.TryParse(LerEntrada(), out valor) && valor >= minimo && valor <= maximo) return valor;
                 Console.Write("Opção inválida. Digite de {0} a {1}: ", minimo, maximo);
             }
         }
@@ -226,7 +236,7 @@ namespace Relaçoes_métricas_e_trigonométricas
             {
                 Console.Write(mensagem);
                 double valor;
-                if (double.TryParse(Console.ReadLine(), NumberStyles.Float, CultureInfo.CurrentCulture, out valor) && !double.IsNaN(valor) && !double.IsInfinity(valor) && valor > 0) return valor;
+                if (double.TryParse(LerEntrada(), NumberStyles.Float, CultureInfo.CurrentCulture, out valor) && !double.IsNaN(valor) && !double.IsInfinity(valor) && valor > 0) return valor;
                 Console.WriteLine("Valor inválido. Digite um número finito maior que zero (use vírgula ou ponto conforme a configuração do sistema).");
             }
         }
@@ -253,8 +263,10 @@ namespace Relaçoes_métricas_e_trigonométricas
 
         private static void Ajuda()
         {
+            _secaoAjudaAtual = "5";
             while (true)
             {
+                Console.WriteLine("Digite \"?\" para obter ajuda.");
                 Console.WriteLine("\n[Ajuda e exemplos] Escolha um assunto:");
                 Console.WriteLine("1 - Triângulo retângulo e teorema de Pitágoras");
                 Console.WriteLine("2 - Razões trigonométricas");
@@ -263,8 +275,12 @@ namespace Relaçoes_métricas_e_trigonométricas
                 Console.WriteLine("5 - Como usar o programa e validar entradas");
                 Console.WriteLine("0 - Voltar ao menu principal");
                 Console.Write("Assunto: ");
-                string opcao = Console.ReadLine();
-                if (opcao == "0") return;
+                string opcao = LerEntrada();
+                if (opcao == "0")
+                {
+                    _secaoAjudaAtual = null;
+                    return;
+                }
 
                 if (opcao != "1" && opcao != "2" && opcao != "3" && opcao != "4" && opcao != "5")
                 {
@@ -280,6 +296,24 @@ namespace Relaçoes_métricas_e_trigonométricas
                     case "4": Metricas.ExibirAjudaAreaEPerimetro(); break;
                     case "5": AjudaArquivo.ExibirSecao("5"); break;
                 }
+            }
+        }
+
+        private static string LerEntrada()
+        {
+            while (true)
+            {
+                string entrada = Console.ReadLine();
+                if (entrada != "?") return entrada;
+
+                if (string.IsNullOrEmpty(_secaoAjudaAtual))
+                {
+                    Console.WriteLine("A ajuda contextual está disponível dentro de um assunto. Digite uma opção.");
+                    continue;
+                }
+
+                AjudaArquivo.ExibirSecao(_secaoAjudaAtual);
+                Console.Write("Ajuda exibida. Digite novamente: ");
             }
         }
 

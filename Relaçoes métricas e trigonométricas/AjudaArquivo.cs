@@ -32,6 +32,10 @@ namespace Relaçoes_métricas_e_trigonométricas
 
             if (!encontrou)
                 Console.WriteLine("Não há conteúdo cadastrado para esse assunto no arquivo Ajuda.txt.");
+
+            Console.WriteLine();
+            Console.Write("Pressione Enter para sair da ajuda...");
+            Console.ReadLine();
         }
     }
 }
