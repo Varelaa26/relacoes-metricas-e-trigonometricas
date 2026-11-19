@@ -1,1 +1,0 @@
-# Relaçoes métricas e trigonométricas

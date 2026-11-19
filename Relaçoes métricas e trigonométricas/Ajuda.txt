@@ -26,7 +26,7 @@ Neste desenho, o ângulo de referência é θ:
                   /|
                  / |
                 /  |
-     hipotenusa/   | cateto oposto
+    hipotenusa /   | cateto oposto
               /    |
              /     |
           θ /______| 90 graus
@@ -95,7 +95,7 @@ em relação ao ângulo θ escolhido.
                   /|   
                  / |
                 /  |
-     hipotenusa/   | oposto
+    hipotenusa /   | oposto
               /    |
              /     |
           θ /______| 90 graus
